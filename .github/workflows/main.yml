@@ -1,8 +1,6 @@
 name: "Imagemagick Plugin Test"
 on:
   push:
-    branches:
-      - master
 jobs:
   test:
     strategy:
@@ -14,5 +12,5 @@ jobs:
       - uses: asdf-vm/actions/plugin-test@v3
         with:
           command: "magick --version"
-        env:
-          GITHUB_API_TOKEN: ${{ secrets.GIT_TOKEN }}
+        # env:
+        #   GITHUB_API_TOKEN: ${{ secrets.GIT_TOKEN }}
