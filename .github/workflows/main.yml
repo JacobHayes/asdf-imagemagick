@@ -4,12 +4,15 @@ on:
     branches:
       - master
 jobs:
-  job1:
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v1.0.0
+      - uses: actions/checkout@v6
+      - uses: asdf-vm/actions/plugin-test@v3
         with:
-          command: "convert --version"
+          command: "magick --version"
         env:
           GITHUB_API_TOKEN: ${{ secrets.GIT_TOKEN }}

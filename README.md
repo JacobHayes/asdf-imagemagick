@@ -1,7 +1,14 @@
 # asdf-imagemagick
 ![GITHUB ACTIONS BADGE](https://github.com/mangalakader/asdf-imagemagick/workflows/Imagemagick%20Plugin%20Test/badge.svg)
 
-## Currently, the plugin works only for Linux based OS.
+ImageMagick plugin for asdf/mise version manager. Supports Linux and macOS.
+
+## Prerequisites
+
+- **Linux**: Standard build tools (gcc, make, etc.)
+- **macOS**: Xcode Command Line Tools (`xcode-select --install`)
+
+Optional dependencies (libjpeg, libpng, etc.) can be installed via your system's package manager for additional ImageMagick features.
 
 ### Passing Extra Arguments for configure:
 

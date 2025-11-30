@@ -21,7 +21,26 @@ install_imagemagick() {
   (
     tar zxf $source_path -C $tmp_download_dir --strip-components=1 || exit 1
     cd $tmp_download_dir
-    ./configure --prefix=$ASDF_INSTALL_PATH CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib" $IMAGEMAGICK_EXTRA > $ASDF_INSTALL_PATH/../config.log
+
+    # Detect platform and set appropriate library paths
+    if [ "$(uname)" = "Darwin" ]; then
+      # macOS - check for Homebrew locations (Apple Silicon vs Intel)
+      if [ -d "/opt/homebrew" ]; then
+        # Apple Silicon
+        CPPFLAGS="-I/opt/homebrew/include"
+        LDFLAGS="-L/opt/homebrew/lib"
+      else
+        # Intel Mac
+        CPPFLAGS="-I/usr/local/include"
+        LDFLAGS="-L/usr/local/lib"
+      fi
+    else
+      # Linux
+      CPPFLAGS="-I/usr/local/include"
+      LDFLAGS="-L/usr/local/lib"
+    fi
+
+    ./configure --prefix=$ASDF_INSTALL_PATH CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS" $IMAGEMAGICK_EXTRA > $ASDF_INSTALL_PATH/../config.log
     make clean test > $ASDF_INSTALL_PATH/../make.log
     make install > $ASDF_INSTALL_PATH/../make_install.log
     rm -rf $tmp_download_dir
